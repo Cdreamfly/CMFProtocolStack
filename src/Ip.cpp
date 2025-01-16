@@ -17,6 +17,9 @@ cm::ip::Ip::Ip(const u_char *ptk) : ip_hdr{
 	.src_ip = {ptk[12], ptk[13], ptk[14], ptk[15]},
 	.dst_ip = {ptk[16], ptk[17], ptk[18], ptk[19]}
 } {
+	if (checksum(reinterpret_cast<const uint16_t *>(ptk), sizeof(ip_hdr_t))) {
+		fmt::print("ip checksum error\n");
+	}
 }
 
 cm::ip::ip_hdr_t cm::ip::Ip::ipPackage() const {

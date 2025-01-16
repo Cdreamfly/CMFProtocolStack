@@ -9,7 +9,7 @@
 
 int main() {
 	cm::nps::NpsDevice device;
-	device.openDevice("eth0");
+	device.openDevice("eth2");
 	//device.PrintAllDevices();
 #if 0
 	const cm::eth::EthII eth{"b8:d4:bc:36:43:4d", "ea:1a:0a:25:c5:95", "ARP"};
@@ -54,12 +54,22 @@ int main() {
 				fmt::print("\n");
 				const cm::ip::Ip ip(pkt + sizeof(cm::eth::EthII));
 				ip.formatPrint();
+				switch (ip.getProtocol()) {
+					case cm::ip::IP_PROTO_ICMP:
+						break;
+					case cm::ip::IP_PROTO_TCP:
+						break;
+					case cm::ip::IP_PROTO_UDP:
+						break;
+					default:
+						break;
+				}
 			}
 			break;
 			default:
 				break;
 		}
-	}, "arp or ip" ,5);
+	}, "arp or ip", 5);
 #endif
 	return 0;
 }
