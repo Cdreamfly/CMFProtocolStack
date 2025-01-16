@@ -33,4 +33,21 @@ namespace cm {
 		std::memcpy(&addr, &ip_addr, sizeof(uint32_t));
 		return addr;
 	}
+
+		inline uint16_t checksum(const uint16_t *packet, int len) {
+		uint32_t sum = 0;
+
+		while (len > 1) {
+			sum += *packet++;
+			len -= sizeof(uint16_t);
+		}
+
+		if (len > 0) sum += *packet;
+
+		while (sum >> 16) {
+			sum = (sum & 0xffff) + (sum >> 16);
+		}
+
+		return static_cast<uint16_t>(~sum);
+	}
 }
