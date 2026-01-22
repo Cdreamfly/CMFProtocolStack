@@ -1,6 +1,12 @@
-#include <stdio.h>
+#include <unistd.h>
+#include "net/net.h"
 
 int main() {
-    printf("Hello World\n");
+    net_init();
+    net_start();
+    while (1)
+    {
+        sleep(1);
+    }
     return 0;
 }

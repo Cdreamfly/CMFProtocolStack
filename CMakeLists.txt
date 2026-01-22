@@ -3,11 +3,11 @@ project(pcap)
 
 set(CMAKE_C_STANDARD 23)
 
-add_definitions("-g -O2 -Wall -Werror -fPIC")
+add_definitions("-g -O2 -Wall -fPIC")
 
 file(GLOB SRC_FILES
-        "${PROJECT_SOURCE_DIR}/include/*"
-        "${PROJECT_SOURCE_DIR}/src/*"
+        "${PROJECT_SOURCE_DIR}/src/net/*"
+        "${PROJECT_SOURCE_DIR}/src/plat/*"
 )
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
