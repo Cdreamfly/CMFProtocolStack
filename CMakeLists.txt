@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(pcap)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD 23)
 
 add_definitions("-g -O2 -Wall -Werror -fPIC")
 
@@ -13,6 +13,6 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-add_executable(pcap main.cpp ${SRC_FILES})
+add_executable(pcap main.c ${SRC_FILES})
 
-target_link_libraries(pcap -lpcap -lfmt)
+target_link_libraries(pcap -lpcap)
