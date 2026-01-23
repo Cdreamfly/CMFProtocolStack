@@ -22,7 +22,7 @@ typedef int int32;
 typedef long long int64;
 
 typedef unsigned char uchar;
-typedef unsigned int size_t;
+//typedef unsigned int size_t;
 
 
 #endif //TYPE_H

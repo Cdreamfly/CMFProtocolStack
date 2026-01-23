@@ -3,6 +3,16 @@
 
 #include "common/type.h"
 
+#if !defined(NULL)
+  #if defined(__GNUC__)
+    #define NULL (__null)
+  #elif !defined(__cplusplus)
+    #define NULL ((void *)0)
+  #else
+    #define NULL (0)
+  #endif
+#endif
+
 #define ETH_HWADDR_LED  (6)
 
 #define IP_ADDR_LED (4)
@@ -16,6 +26,12 @@ typedef struct ip_addr_s
 {
     uint8 addr[IP_ADDR_LED];
 } ip_addr_t;
+
+#define CMF_PARAM_CHK(message,expression,handler)  do { if (expression) { \
+    CMF_DEBUG(CMF_DBG_NO_MODULE | DBG_LV_ERR,"%s", message); handler; }} while(0)
+
+#define CMF_OP_CHK(message, op, handler) do { if ((op) != RT_ERR_OK) { \
+    CMF_DEBUG(CMF_DBG_NO_MODULE | DBG_LV_ERR, "%s",message); handler; }} while(0)
 
 #define ETH_ADDR_COPY(da, sa)    \
     do {   \

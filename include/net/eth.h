@@ -46,10 +46,10 @@ typedef struct cmf_upper_input_func_s
     cmf_etharp_input_f arp_input;
 } cmf_upper_input_func_t;
 
-extern int32 eth_init(cmf_upper_input_func_t *pUpper_input);
+extern int32 eth_init(const cmf_upper_input_func_t *pUpper_input);
 extern int32 eth_input(pktBuf_t *pBuf, netIf_t *pNetIf);
 extern int32 eth_output(pktBuf_t *pktBuf, netIf_t *pNetIf);
 extern int32 cmf_nic_rxVid_get(uint32 *pVid);
-extern int32 cmf_vlan_func_register(cmf_eth_vlan_callback_fun_t *pVlanCfg);
+extern int32 cmf_vlan_func_register(const cmf_eth_vlan_callback_fun_t *pVlanCfg);
 
 #endif //ETH_H
