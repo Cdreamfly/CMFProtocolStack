@@ -31,6 +31,7 @@
 typedef enum dbg_lv_e {
     DBG_LV_FUNC_ENTER = 1,
     DBG_LV_ERR,
+    DBG_LV_DEBUG,
     DBG_LV_INFO,
     DBG_LV_MAX
 } dbg_lv_t;

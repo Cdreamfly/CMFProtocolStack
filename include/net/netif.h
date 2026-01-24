@@ -17,7 +17,7 @@ typedef struct netIf_s
 } netIf_t;
 
 
-extern void cmf_netif_info_set(netIf_t *pNetif);
+extern void cmf_netif_info_set(const netIf_t *pNetif);
 extern void cmf_netif_info_get(netIf_t *pNetif);
 
 

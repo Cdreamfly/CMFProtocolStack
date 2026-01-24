@@ -9,6 +9,7 @@ typedef enum cmf_ret_val_e
     CMF_ERR_OUTOFMEMORY,
     CMF_ERR_NOTINITIALIZED,
     CMF_ERR_NOTEXIST,
+    CMF_ERR_NOT_SUPPORT
 }cmf_ret_val_t;
 
 #endif //CMF_H

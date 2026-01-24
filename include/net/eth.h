@@ -20,7 +20,7 @@ typedef struct eth_hdr_s
 {
     eth_addr_t dst_mac;
     eth_addr_t src_mac;
-    eth_type_t type;
+    eth_type_t ether_type;
 }eth_hdr_t;
 
 typedef struct eth_vlan_hdr_s
