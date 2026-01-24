@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 17)
 add_definitions("-g -O2 -Wall -fPIC")
 
 file(GLOB SRC_FILES
+        "${PROJECT_SOURCE_DIR}/src/*"
         "${PROJECT_SOURCE_DIR}/src/net/*"
 )
 include_directories(
