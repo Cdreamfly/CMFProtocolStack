@@ -14,7 +14,7 @@ typedef enum event_interval_e
 typedef enum event_handle_type_e
 {
     EVENT_HANDLE_CLI,
-    EVENT_HANDLE_RLDP,
+    EVENT_HANDLE_PROTO,
     EVENT_HANDLE_HTTPD,
     EVENT_HANDLE_OTHER,
     EVENT_HANDLE_END

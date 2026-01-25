@@ -3,15 +3,7 @@
 
 #include "common/type.h"
 
-#if !defined(NULL)
-  #if defined(__GNUC__)
-    #define NULL (__null)
-  #elif !defined(__cplusplus)
-    #define NULL ((void *)0)
-  #else
-    #define NULL (0)
-  #endif
-#endif
+#define NULL ((void *)0)
 
 #define CMF_TRUE 1
 #define CMF_FALSE 0
@@ -35,6 +27,9 @@ typedef struct ip_addr_s
 
 #define CMF_OP_CHK(message, op, handler) do { if ((op) != CMF_OK) { \
     CMF_DEBUG(CMF_DBG_NO_MODULE | DBG_LV_ERR, "%s",message); handler; }} while(0)
+
+#define RT_ERR_CHK(op, ret) do { \
+    if ((ret = (op)) != RT_ERR_OK) { return ret; } } while (0)
 
 #define ETH_ADDR_COPY(da, sa)    \
     do {   \

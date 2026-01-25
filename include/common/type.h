@@ -24,5 +24,21 @@ typedef long long int64;
 typedef unsigned char uchar;
 //typedef unsigned int size_t;
 
+typedef enum rtk_enable_e
+{
+    DISABLED = 0,
+    ENABLED,
+    RTK_ENABLE_END
+} rtk_enable_t;
+
+typedef enum init_state_e
+{
+    INIT_NOT_COMPLETED = 0,
+    INIT_COMPLETED,
+    INIT_STATE_END
+} init_state_t;
+
+#define RT_ERR_OK 0
+#define RT_ERR_FAILED -1
 
 #endif //TYPE_H
