@@ -32,6 +32,18 @@ typedef struct rtk_proto_pkt_e
     uint32 pkt_len;
 } rtk_proto_pkt_t;
 
+typedef struct rtk_pkt_s
+{
+    uint8* pPkt;
+    uint32 pKt_len;
+
+    uint8 *l2_hdr;
+    uint8 *l3_hdr;
+    uint8 *l4_hdr;
+
+    rtk_proto_pkt_t pktInfo;
+} rtk_pkt_t;
+
 typedef int32 (*init_func)(void);
 typedef int32 (*enable_func)(rtk_enable_t status);
 typedef int32 (*judge_func)(rtk_proto_pkt_t* pPkt);

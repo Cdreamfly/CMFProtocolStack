@@ -38,6 +38,13 @@ typedef enum init_state_e
     INIT_STATE_END
 } init_state_t;
 
+typedef enum drv_nic_rx_e
+{
+    NIC_RX_NOT_HANDLED = 0,
+    NIC_RX_HANDLED,
+    NIC_RX_HANDLED_OWNED
+} drv_nic_rx_t;
+
 #define RT_ERR_OK 0
 #define RT_ERR_FAILED -1
 
