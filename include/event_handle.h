@@ -1,5 +1,5 @@
-#ifndef EVNET_HANDLE_H
-#define EVNET_HANDLE_H
+#ifndef EVENT_HANDLE_H
+#define EVENT_HANDLE_H
 
 #include "common/type.h"
 
@@ -31,4 +31,4 @@ extern void cmf_eventHandle_init();
 extern void cmf_eventHandle_register(event_handle_type_t handleType, event_interval_t interval, func_event_handle handle);
 extern void cmf_eventHandle(event_interval_t interval, uint32 load_share, uint32 load_seed);
 
-#endif //EVNET_HANDLE_H
+#endif //EVENT_HANDLE_H

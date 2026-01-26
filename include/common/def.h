@@ -12,6 +12,8 @@
 
 #define IP_ADDR_LED (4)
 
+#define MAX_UNIT 1
+
 typedef struct eth_addr_s
 {
     uint8 addr[ETH_HWADDR_LED];
