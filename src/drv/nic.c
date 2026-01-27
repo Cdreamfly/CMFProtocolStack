@@ -5,6 +5,12 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <net/ethernet.h>   // 以太网标准头
+#include <netinet/ip.h>     // IPv4标准头
+#include <netinet/udp.h>    // UDP标准头
+#include <netinet/tcp.h>    // TCP标准头
+#include <arpa/inet.h>      // IP格式化
+#include <netinet/ip_icmp.h>
 #include "protocol.h"
 
 typedef struct nic_pcap_e
@@ -19,6 +25,58 @@ typedef struct nic_pcap_e
 } nic_pcap_t;
 
 static nic_pcap_t nic_pcap[MAX_UNIT] = {0};
+
+void pcap_rx_dump(const struct pcap_pkthdr* header, const u_char* pkt_data)
+{
+    const struct ether_header* eth = (const struct ether_header*)pkt_data;
+    const struct ip* ip = (const struct ip*)(pkt_data + 14);
+    uint32_t ip_hlen = (ip->ip_hl & 0x0F) * 4; // IPv4头长度
+
+    // 仅处理IPv4报文（帧类型0x0800），其他协议直接跳过
+    if (ntohs(eth->ether_type) != ETHERTYPE_IP) return;
+
+    // ====================== 以太网层 ======================
+    printf("  [以太网层] 源MAC：%02x:%02x:%02x:%02x:%02x:%02x\n",
+           eth->ether_shost[0],eth->ether_shost[1],eth->ether_shost[2],
+           eth->ether_shost[3],eth->ether_shost[4],eth->ether_shost[5]);
+    printf("  [以太网层] 目的MAC：%02x:%02x:%02x:%02x:%02x:%02x\n",
+           eth->ether_dhost[0],eth->ether_dhost[1],eth->ether_dhost[2],
+           eth->ether_dhost[3],eth->ether_dhost[4],eth->ether_dhost[5]);
+    printf("  [以太网层] 帧类型：0x%04x(IPv4)\n", ntohs(eth->ether_type));
+
+    // ====================== IPv4层 ======================
+    printf("  [IPv4层] 源IP：%s\n", inet_ntoa(ip->ip_src));
+    printf("  [IPv4层] 目的IP：%s\n", inet_ntoa(ip->ip_dst));
+    printf("  [IPv4层] 协议号：%d ", ip->ip_p);
+    switch(ip->ip_p) {
+        case IPPROTO_ICMP: printf("(ICMP)\n"); break;
+        case IPPROTO_UDP:  printf("(UDP)\n"); break;
+        case IPPROTO_TCP:  printf("(TCP)\n"); break;
+        default:           printf("(其他)\n"); break;
+    }
+
+    // ====================== 传输层 ======================
+    printf("  [传输层] ");
+    switch (ip->ip_p) {
+        case IPPROTO_ICMP: // ICMP(ping)
+            const struct icmp* icmp = (const struct icmp*)((u_char*)ip + ip_hlen);
+            printf("ICMP：类型%d(%s) 序列号：%d\n", icmp->icmp_type,
+                   icmp->icmp_type==ICMP_ECHO?"请求":"响应", ntohs(icmp->icmp_seq));
+            break;
+        case IPPROTO_UDP: // UDP
+            const struct udphdr* udp = (const struct udphdr*)((u_char*)ip + ip_hlen);
+            printf("UDP：源端口%d → 目的端口%d\n", ntohs(udp->uh_sport), ntohs(udp->uh_dport));
+            break;
+        case IPPROTO_TCP: // TCP
+            const struct tcphdr* tcp = (const struct tcphdr*)((u_char*)ip + ip_hlen);
+            printf("TCP：源端口%d → 目的端口%d\n", ntohs(tcp->th_sport), ntohs(tcp->th_dport));
+            break;
+        default: // 其他传输层协议
+            printf("暂不解析\n");
+            break;
+    }
+    printf("---------------------------------------------------\n"); // 包分隔线
+}
 
 static void* nic_pcap_rx_thread(void* arg)
 {
@@ -42,12 +100,7 @@ static void* nic_pcap_rx_thread(void* arg)
         switch (ret)
         {
         case 1:
-            fprintf(stdout, "time %d cap %d len %d\n",pPktHdr->ts.tv_sec, pPktHdr->caplen, pPktHdr->len);
-            for (int i = 0; i < pPktHdr->caplen; i++)
-            {
-                fprintf(stdout, "%02x ", pPacketData[i]);
-            }
-            fprintf(stdout, "\n");
+            pcap_rx_dump(pPktHdr, pPacketData);
             if (NULL != pNic->rx_callback)
             {
                 pNic->rx_callback(unit, (void*)pPacketData, pNic->pCookie);
@@ -77,7 +130,7 @@ int32 drv_nic_pcap_init(const uint32 unit)
     {
         return RT_ERR_OK;
     }
-    nic_pcap[unit].pcap_handle = pcap_open_live("eth0", 65535, 1, 0, nic_pcap[unit].err);
+    nic_pcap[unit].pcap_handle = pcap_open_live("eth0", 65535, 1, 1, nic_pcap[unit].err);
     if (NULL == nic_pcap[unit].pcap_handle)
     {
         fprintf(stderr, "open dev %s failed: %s\n", "eth0", nic_pcap[unit].err);
