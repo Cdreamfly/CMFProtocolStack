@@ -24,6 +24,10 @@ typedef long long int64;
 typedef unsigned char uchar;
 //typedef unsigned int size_t;
 
+
+#define __dataram __attribute__ ((section (".dataram")))
+#define __textram __attribute__ ((section (".textram")))
+
 typedef enum rtk_enable_e
 {
     DISABLED = 0,

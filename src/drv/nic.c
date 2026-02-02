@@ -30,7 +30,7 @@ void pcap_rx_dump(const struct pcap_pkthdr* header, const u_char* pkt_data)
 {
     const struct ether_header* eth = (const struct ether_header*)pkt_data;
     const struct ip* ip = (const struct ip*)(pkt_data + 14);
-    uint32_t ip_hlen = (ip->ip_hl & 0x0F) * 4; // IPv4头长度
+    const uint32_t ip_hlen = (ip->ip_hl & 0x0F) * 4; // IPv4头长度
 
     // 仅处理IPv4报文（帧类型0x0800），其他协议直接跳过
     if (ntohs(eth->ether_type) != ETHERTYPE_IP) return;

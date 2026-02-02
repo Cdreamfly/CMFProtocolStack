@@ -5,11 +5,6 @@
 
 static uint32 rtk_proto_initialed = INIT_NOT_COMPLETED;
 
-void rldp_tick_handle()
-{
-    //debug_printf("RLDP tick handle\n");
-}
-
 static int32 rtk_proto_dispatch(const uint32 unit, rtk_pkt_t* pPacket, void* pCookie)
 {
     const rtk_proto_func_t* pProto_func = rtk_proto_func_get();
@@ -34,12 +29,14 @@ int32 rtk_proto_init()
     const uint32 unit = 0;
     rtk_proto_initialed = INIT_NOT_COMPLETED;
     RT_ERR_CHK(rtk_proto_func_init(), ret);
-    rtk_proto_func_register(RTK_PROTO_RLDP, NULL,NULL,NULL,NULL, rldp_tick_handle);
+    rtk_proto_func_register(RTK_PROTO_CMF, NULL,NULL,NULL,NULL, NULL);
     RT_ERR_CHK(rtk_proto_registered_proto_init(), ret);
+
     drv_nic_mapper_init(unit);
     drv_nic_init(unit);
     drv_nic_rx_register(unit, 0, rtk_proto_dispatch, NULL, 0);
     drv_nic_rx_start(unit);
+
     RT_ERR_CHK(rtk_proto_registered_proto_enable(ENABLED), ret);
     rtk_proto_initialed = INIT_COMPLETED;
     return RT_ERR_OK;

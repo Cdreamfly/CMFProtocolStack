@@ -7,6 +7,7 @@ add_definitions("-g -O2 -Wall -fPIC")
 
 file(GLOB SRC_FILES
         "${PROJECT_SOURCE_DIR}/src/*"
+        "${PROJECT_SOURCE_DIR}/src/common/*"
         "${PROJECT_SOURCE_DIR}/src/net/*"
         "${PROJECT_SOURCE_DIR}/src/drv/*"
 )
