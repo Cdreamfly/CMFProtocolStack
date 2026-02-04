@@ -4,5 +4,5 @@
 
 int32 ip_init(void)
 {
-    return CMF_OK;
+    return CMF_ERR_OK;
 }

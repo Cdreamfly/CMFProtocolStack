@@ -20,7 +20,7 @@ int32 rtk_proto_func_init()
 int32 rtk_proto_func_register(const rtk_proto_t id, const init_func init, const enable_func status_set,
                               const judge_func judge, const routine_func routine, const tick_handle_func tick_handle)
 {
-    CMF_PARAM_CHK("rtk_proto_t err", id >= RTK_PROTO_END, return RT_ERR_FAILED);
+    CMF_PARAM_CHK("rtk_proto_t err", id >= RTK_PROTO_END, return RT_ERR_ENTRY_INDEX);
     proto_func[id].init = init;
     proto_func[id].status_set = status_set;
     proto_func[id].judge = judge;
@@ -31,7 +31,7 @@ int32 rtk_proto_func_register(const rtk_proto_t id, const init_func init, const 
 
 int32 rtk_proto_func_unregister(const rtk_proto_t id)
 {
-    CMF_PARAM_CHK("rtk_proto_t err", id >= RTK_PROTO_END, return RT_ERR_FAILED);
+    CMF_PARAM_CHK("rtk_proto_t err", id >= RTK_PROTO_END, return RT_ERR_ENTRY_INDEX);
     proto_func[id].init = NULL;
     proto_func[id].status_set = NULL;
     proto_func[id].judge = NULL;

@@ -34,17 +34,17 @@ static void _eth_hdr_dump(eth_hdr_t* pEthHdr)
 
 int32 eth_init(const cmf_upper_input_func_t* pUpper_input)
 {
-    CMF_PARAM_CHK("pUpper_input NULL", NULL == pUpper_input, return CMF_ERR_NULLPOINT);
-    CMF_PARAM_CHK("ip4_input NULL", NULL == pUpper_input->ip4_input, return CMF_ERR_NULLPOINT);
-    CMF_PARAM_CHK("arp_input NULL", NULL == pUpper_input->arp_input, return CMF_ERR_NULLPOINT);
+    CMF_PARAM_CHK("pUpper_input NULL", NULL == pUpper_input, return CMF_ERR_INPUT);
+    CMF_PARAM_CHK("ip4_input NULL", NULL == pUpper_input->ip4_input, return CMF_ERR_INPUT);
+    CMF_PARAM_CHK("arp_input NULL", NULL == pUpper_input->arp_input, return CMF_ERR_INPUT);
     cmf_ip4_input = pUpper_input->ip4_input;
     cmf_etharp_input = pUpper_input->arp_input;
-    return CMF_OK;
+    return CMF_ERR_OK;
 }
 
 int32 eth_input(pktBuf_t* pBuf, netIf_t* pNetIf)
 {
-    CMF_PARAM_CHK("ethernet packet dropped, too short", pBuf->length < sizeof(eth_hdr_t), return CMF_ERR);
+    CMF_PARAM_CHK("ethernet packet dropped, too short", pBuf->length < sizeof(eth_hdr_t), return CMF_ERR_OUT_OF_RANGE);
     pBuf->l2_hdr = pBuf->data;
     eth_hdr_t* pEthHdr = (eth_hdr_t*)pBuf->l2_hdr;
     _eth_hdr_dump(pEthHdr);
@@ -60,23 +60,23 @@ int32 eth_input(pktBuf_t* pBuf, netIf_t* pNetIf)
         cmf_pbuf_free(pBuf);
         return CMF_ERR_NOT_SUPPORT;
     }
-    return CMF_OK;
+    return CMF_ERR_OK;
 }
 
 int32 eth_output(pktBuf_t* pktBuf, netIf_t* pNetIf)
 {
-    return CMF_OK;
+    return CMF_ERR_OK;
 }
 
 int32 cmf_nic_rxVid_get(uint32* pVid)
 {
     *pVid = current_vid;
-    return CMF_OK;
+    return CMF_ERR_OK;
 }
 
 int32 cmf_vlan_func_register(const cmf_eth_vlan_callback_fun_t* pVlanCfg)
 {
-    CMF_PARAM_CHK("pVlanCfg NULL", NULL == pVlanCfg, return CMF_ERR_NULLPOINT);
+    CMF_PARAM_CHK("pVlanCfg NULL", NULL == pVlanCfg, return CMF_ERR_NULL_POINTER);
     cmf_vlan_pvid_pm_get = pVlanCfg->eth_vid_pm_get;
-    return CMF_OK;
+    return CMF_ERR_OK;
 }

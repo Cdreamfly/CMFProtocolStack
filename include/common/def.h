@@ -27,7 +27,7 @@ typedef struct ip_addr_s
 #define CMF_PARAM_CHK(message,expression,handler)  do { if (expression) { \
     CMF_DEBUG(CMF_DBG_NO_MODULE | DBG_LV_ERR,"%s", message); handler; }} while(0)
 
-#define CMF_OP_CHK(message, op, handler) do { if ((op) != CMF_OK) { \
+#define CMF_OP_CHK(message, op, handler) do { if ((op) != CMF_ERR_OK) { \
     CMF_DEBUG(CMF_DBG_NO_MODULE | DBG_LV_ERR, "%s",message); handler; }} while(0)
 
 #define RT_ERR_CHK(op, ret) do { \

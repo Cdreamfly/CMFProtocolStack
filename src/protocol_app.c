@@ -2,6 +2,7 @@
 #include "protocol.h"
 #include "common/cmf_debug.h"
 #include "drv/nic.h"
+#include "net/cmf_app.h"
 
 static uint32 rtk_proto_initialed = INIT_NOT_COMPLETED;
 
@@ -29,7 +30,7 @@ int32 rtk_proto_init()
     const uint32 unit = 0;
     rtk_proto_initialed = INIT_NOT_COMPLETED;
     RT_ERR_CHK(rtk_proto_func_init(), ret);
-    rtk_proto_func_register(RTK_PROTO_CMF, NULL,NULL,NULL,NULL, NULL);
+    RT_ERR_CHK(cmf_pro_register(), ret);
     RT_ERR_CHK(rtk_proto_registered_proto_init(), ret);
 
     drv_nic_mapper_init(unit);

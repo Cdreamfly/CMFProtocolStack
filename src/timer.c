@@ -22,11 +22,11 @@ void simple_timer_init(void)
 
 int32 simple_timer_register(const timer_type_t timerType, const func_timer_f timer_func)
 {
-    CMF_PARAM_CHK("func_timer null", NULL == timer_func, return CMF_ERR_NULLPOINT);\
+    CMF_PARAM_CHK("func_timer null", NULL == timer_func, return CMF_ERR_NULL_POINTER);
     timerBus[timerType].timer.interval_ms = INTERVAL_1000MS;
     timerBus[timerType].timer.last_tick_ms = get_current_ms();
     timerBus[timerType].func_timer = timer_func;
-    return CMF_OK;
+    return CMF_ERR_OK;
 }
 
 int32 simple_timer_is_expired(const timer_type_t timerType, const event_interval_t interval, const uint32 load_share, const uint32 load_seed)
@@ -45,5 +45,5 @@ int32 simple_timer_is_expired(const timer_type_t timerType, const event_interval
             break;
         }
     }
-    return CMF_OK;
+    return CMF_ERR_OK;
 }

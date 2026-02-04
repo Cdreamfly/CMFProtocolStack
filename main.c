@@ -12,7 +12,7 @@ int main() {
     while (1)
     {
         simple_timer_is_expired(TIMER_TYPE_1S_0, INTERVAL_1000MS, 1, 0);
-        usleep(10 * 1000); // 10ms = 10*1000 微秒
+        usleep(100);
     }
     return 0;
 }

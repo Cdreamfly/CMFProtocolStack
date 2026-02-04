@@ -82,7 +82,7 @@ typedef struct cmf_pbuf_cfg_s
     cmf_pbuf_rx_f pbuf_rx_f;
 } cmf_pbuf_cfg_t;
 
-extern int32 cmf_pbuf_func_register(cmf_pbuf_cfg_t *pPbufCfg);
+extern int32 cmf_pbuf_func_register(const cmf_pbuf_cfg_t *pPbufCfg);
 extern int32 cmf_pbuf_alloc(int32 size, uint32 flags, pktBuf_t **ppBuf);
 extern int32 cmf_pbuf_free(pktBuf_t *pBuf);
 extern int32 cmf_pbuf_tx(pktBuf_t *pBuf);
