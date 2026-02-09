@@ -59,8 +59,6 @@ typedef enum ip_proto_e
     IP_PROTO_RAW = 0xFF // 原始IP报文（自定义协议，无上层协议）
 } ip_proto_t;
 
-
-
 extern int32 ip_init(void);
 extern int32 ip_input(pktBuf_t* pBuf);
 extern int32 ip_output(pktBuf_t* pBuf, ip_addr_t* pIpAddr);

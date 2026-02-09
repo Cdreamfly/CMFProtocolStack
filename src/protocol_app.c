@@ -3,11 +3,21 @@
 #include "common/cmf_debug.h"
 #include "drv/nic.h"
 #include "net/cmf_app.h"
+#include "drv/nic_common.h"
 
 static uint32 rtk_proto_initialed = INIT_NOT_COMPLETED;
 
-static int32 rtk_proto_dispatch(const uint32 unit, rtk_pkt_t* pPacket, void* pCookie)
+static int32 rtk_rx_parser(rtk_pkt_t* pPacket, drv_nic_ptk_t* pkt)
 {
+    rtk_proto_pkt_t* pktInfo = &pPacket->pktInfo;
+    return RT_ERR_OK;
+}
+
+static int32 rtk_proto_dispatch(const uint32 unit, drv_nic_ptk_t* pPacket, void* pCookie)
+{
+    int32 ret = RT_ERR_OK;
+    rtk_pkt_t pkt;
+    RT_ERR_CHK(rtk_rx_parser(&pkt, pPacket), ret);
     const rtk_proto_func_t* pProto_func = rtk_proto_func_get();
     for (rtk_proto_t id = 0; id < RTK_PROTO_END; id++)
     {
@@ -15,9 +25,9 @@ static int32 rtk_proto_dispatch(const uint32 unit, rtk_pkt_t* pPacket, void* pCo
         {
             continue;
         }
-        if (CMF_TRUE == pProto_func[id].judge(&pPacket->pktInfo))
+        if (CMF_TRUE == pProto_func[id].judge(&pkt.pktInfo))
         {
-            pProto_func[id].routine(unit, &pPacket->pktInfo);
+            pProto_func[id].routine(unit, &pkt);
             return NIC_RX_HANDLED_OWNED;
         }
     }

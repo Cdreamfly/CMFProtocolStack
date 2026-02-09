@@ -47,7 +47,7 @@ typedef struct rtk_pkt_s
 typedef int32 (*init_func)(void);
 typedef int32 (*enable_func)(rtk_enable_t status);
 typedef int32 (*judge_func)(rtk_proto_pkt_t* pPkt);
-typedef int32 (*routine_func)(uint32 unit, rtk_proto_pkt_t* pPkt);
+typedef int32 (*routine_func)(uint32 unit, rtk_pkt_t* pPkt);
 typedef int32 (*tick_handle_func)(void);
 
 typedef struct rtk_proto_func_s
